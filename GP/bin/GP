@@ -36,7 +36,7 @@ command :lister do |c|
   c.default_value 'default'
   c.flag :f
   c.action do |global_options,options,args|
-
+    
     # Your command logic here
      
     # If you have any errors, just raise them
