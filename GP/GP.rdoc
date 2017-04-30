@@ -1,0 +1,5 @@
+= GP
+
+Generate this with
+    GP rdoc
+After you have described your command line interface

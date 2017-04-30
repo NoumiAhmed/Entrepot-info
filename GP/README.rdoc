@@ -1,0 +1,6 @@
+= GP
+
+Describe your project here
+
+:include:GP.rdoc
+
