@@ -68,7 +68,7 @@ module DBC
 
   # Verifie la valeur specifique d'un argument d'une methode. Utile pour avoir des constructeurs flexibles.
   #
-  # @param val La valeur dont on veut verifier si elle est aceptable
+  # @param val La valeur dont on veut verifier si elle est acceptable
   # @param expected_value [#==, Array<#==>] Les valeurs permises/attendues
   # @param message Le message a afficher si l'argument n'a pas une valeur appropriee
   # @return (see #assert)

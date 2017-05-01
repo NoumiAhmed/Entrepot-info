@@ -34,24 +34,20 @@ arg_name 'nom_de_fichier'
 # (presentees en ordre alphabatique)
 ##############################################################
 
-desc 'Describe lister here'
-arg_name 'Describe arguments to lister here'
-command :lister do |c|
-  c.desc 'Describe a switch to lister'
-  c.switch :s
+desc 'lister toutes les pieces disponibles dans le depot dans l\'ordre croissant des numero de serie'
+command :lister do |lister|
+  
+  lister.desc 'Prend format pour l\'affichage'
+  lister.default_value :format, :arg_name => 'le_format'
+  lister.action do |global_options,options,args|
+   le_format = options[:format]
+  listing = GP::BaseDeDonnees
+    .les_pieces
+    .map {|p| p.to_s(le_format) << "\n" }
+    .join
 
-  c.desc 'Describe a flag to lister'
-  c.default_value 'default'
-  c.flag :f
-  c.action do |global_options,options,args|
-    
-    
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
+  puts listing unless listing.empty?
 
-    puts "lister command ran"
   end
 end
 
@@ -72,11 +68,19 @@ command :retirer do |c|
   end
 end
 
-desc 'Describe deposer here'
-arg_name 'Describe arguments to deposer here'
-command :deposer do |c|
-  c.action do |global_options,options,args|
-    puts "deposer command ran"
+desc 'Deposer une nouvelle piece dans le depot des pieces'
+arg_name '[piece]...'
+command :deposer do |deposer|
+  deposer.action do |global_options,options,args|
+  erreur_nb_arguments args unless args.size == 0 || args.size >= 3
+  les_pieces_a_ajouter(args).each do |noSerie, type, description|
+  erreur "NoSerie incorrect: #{sigle}" unless GP::Motifs::NOSERIE =~ noSerie
+    piece_avec_noSerie = GP::BaseDeDonnees.piece(noSerie)
+    erreur "une piece avec le mem numero de serie existe deja" if piece_avec_noSerie
+    
+     GP::BaseDeDonnees
+      .deposer(noSerie.to_sym, type, description)
+  end
   end
 end
 
