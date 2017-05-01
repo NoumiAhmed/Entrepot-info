@@ -1,4 +1,4 @@
-module GestionDepot
+module GP
 
 
 #Objet (singleton) qui encapsule le depot de donnees pour les pieces.
@@ -16,16 +16,10 @@ class BaseDeDonnees
  # @ensure (le fichier n'existe pas || detruire) => le fichier existe et est vide
  #
 
-  def self.init( depot, detruire)
-    if File.exist? depot
-     if detruire
-      FileUtils.rm_f depot # on detruit le depot existant si --detruire est specifie.
-     else
-      fail "le fichier '#{depot}' existe.
-	    si vous voulez le detruire, utilisez 'init --detruire'."
-     end
-    end
-   FileUtils.touch depot
+  def self.init( depot)
+    if !File.exist? depot
+     FileUtils.touch depot
+     end 
   end
 
 #charger en memoire le contenu d'un depot.
@@ -106,11 +100,11 @@ class BaseDeDonnees
 #  @return [Piece]
 #
   # def self.( noSerie ) 
-  #   pieces = @les_pieces.select {  |p| /^#{noSerie}$/ =~ p.noSerie }
+  #   piece = @les_pieces.select {  |p| /^#{noSerie}$/ =~ p.noSerie }
 
   #   fail "plusieurs pieces avec le meme numero de serie #{noSerie.inspect}" if pieces.size > 1
 
-  #   pieces.first
+  #   piece.first
 
   # end
 
