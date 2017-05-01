@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'gli'
-
+require 'fileutils'
 begin # XXX: Remove this begin/rescue before distributing your app
 require 'GP'
 
@@ -15,7 +15,7 @@ include GLI::App
 
 
 DEPOT_DEFAUT = '.depot.txt' # Fichier par defaut pour depot.
-
+GP = GestionDepot
 
 program_desc "Application pour gestion de depot de pieces informatiques"
 version GP::VERSION

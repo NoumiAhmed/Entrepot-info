@@ -4,6 +4,7 @@ module GestionDepot
 	
 		attr_reader :type, :description, :noSerie
 		def initialize(type, description, noSerie)
+			DBC.require( noSerie.kind_of?(Symbol) )
 			@type = type
 			@description = description
 			@noSerie = noSerie
