@@ -15,7 +15,7 @@ include GLI::App
 
 
 DEPOT_DEFAUT = '.depot.txt' # Fichier par defaut pour depot.
-GP = GestionDepot
+
 
 program_desc "Application pour gestion de depot de pieces informatiques"
 version GP::VERSION
@@ -28,6 +28,7 @@ default_value DEPOT_DEFAUT
 flag :depot
 arg_name 'nom_de_fichier'
 
+GP::BaseDeDonnees.init(DEPOT_DEFAUT)
 
 ##############################################################
 # Specifications des diverses commandes
@@ -47,7 +48,6 @@ command :lister do |lister|
     .join
 
   puts listing unless listing.empty?
-
   end
 end
 
@@ -84,8 +84,23 @@ command :deposer do |deposer|
   end
 end
 
+
+# desc "Cree une nouvelle base de donnees pour gerer des cours (dans './#{DEPOT_DEFAUT}' si --depot n'est pas specifie)"
+# skips_pre
+# skips_post
+# command :init do |init|
+#   init.desc 'Indique de detruire le fichier si il existe deja'
+#   init.switch :detruire
+
+#   init.action do |global,options,args|
+#     GP::BaseDeDonnees
+#       .init( global[:depot], options[:detruire] )
+#   end
+# end
+
 pre do |global,command,options,args|
-  # Pre logic here
+  GP::BaseDeDonnees.charger( global[:depot] )
+  true
   # Return true to proceed; false to abort and not call the
   # chosen command
   # Use skips_pre before a command to skip this block

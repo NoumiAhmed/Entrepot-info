@@ -1,4 +1,4 @@
-module GestionDepot
+module GP
 
 	class Piece
 	
