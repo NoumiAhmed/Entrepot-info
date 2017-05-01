@@ -45,6 +45,7 @@ command :lister do |c|
   c.flag :f
   c.action do |global_options,options,args|
     
+    
     # Your command logic here
      
     # If you have any errors, just raise them
