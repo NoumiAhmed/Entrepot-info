@@ -1,6 +1,6 @@
 module GestionDepot
 
-	class Pieces
+	class Piece
 	
 		attr_reader :type, :description, :noSerie
 		def initialize(type, description, noSerie)
