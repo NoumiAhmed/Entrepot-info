@@ -11,22 +11,27 @@ end
 
 include GLI::App
 
-program_desc 'Describe your application here'
 
-version GP::VERSION
+DEPOT_DEFAUT = '.depot.txt' # Fichier par defaut pour depot.
+GP  = GestionDepot # Un alias, pour alleger le code.
+
+program_desc "Application pour gestion de depot de pieces informatiques"
+version GA::VERSION
 
 subcommand_option_handling :normal
 arguments :strict
 
-desc 'Describe some switch here'
-switch [:s,:switch]
+desc 'Donnes pour depot de pieces informatique'
+default_value DEPOT_DEFAUT
+flag :depot
+arg_name 'nom_de_fichier'
 
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
 
-desc 'Describe lister here'
+##############################################################
+# Specifications des diverses commandes
+# (presentees en ordre alphabatique)
+##############################################################
+des'c 'Describe lister here'
 arg_name 'Describe arguments to lister here'
 command :lister do |c|
   c.desc 'Describe a switch to lister'
