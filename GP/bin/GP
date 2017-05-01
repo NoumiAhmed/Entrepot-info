@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 require 'gli'
+
 begin # XXX: Remove this begin/rescue before distributing your app
 require 'GP'
+
 rescue LoadError
   STDERR.puts "In development, you need to use `bundle exec bin/GP` to run your app"
   STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
@@ -13,10 +15,10 @@ include GLI::App
 
 
 DEPOT_DEFAUT = '.depot.txt' # Fichier par defaut pour depot.
-GP  = GestionDepot # Un alias, pour alleger le code.
+
 
 program_desc "Application pour gestion de depot de pieces informatiques"
-version GA::VERSION
+version GP::VERSION
 
 subcommand_option_handling :normal
 arguments :strict
@@ -31,7 +33,8 @@ arg_name 'nom_de_fichier'
 # Specifications des diverses commandes
 # (presentees en ordre alphabatique)
 ##############################################################
-des'c 'Describe lister here'
+
+desc 'Describe lister here'
 arg_name 'Describe arguments to lister here'
 command :lister do |c|
   c.desc 'Describe a switch to lister'
@@ -50,6 +53,7 @@ command :lister do |c|
     puts "lister command ran"
   end
 end
+
 
 desc 'Describe trouver here'
 arg_name 'Describe arguments to trouver here'
