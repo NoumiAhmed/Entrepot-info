@@ -78,11 +78,16 @@ command :trouver do |trouver|
 end
 
 
-desc 'Describe retirer here'
-arg_name 'Describe arguments to retirer here'
-command :retirer do |c|
-  c.action do |global_options,options,args|
-    puts "retirer command ran"
+desc 'retire une piece du depot des pieces'
+arg_name '[noSerie]...'
+command :retirer do |retirer|
+  retirer.action do |global_options,options,args|
+    erreur "Arguments en trop" if args.size > 1
+    les_noSerie_a_supprimer(args).each do |sigle|
+    les_pieces = GP::BaseDeDonnees.piece(noSerie)
+    erreur "Aucune piece avec le numero de serie '#{noSerie}'" unless piece
+    GP::BaseDeDonnees.retirer piece
+   end    
   end
 end
 
@@ -116,7 +121,9 @@ end
 #       .init( global[:depot], options[:detruire] )
 #   end
 # end
-#
+
+
+
 #########################################################
 #Methodes pour traitement des erreurs
 #########################################################
