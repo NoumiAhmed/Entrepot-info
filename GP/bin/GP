@@ -39,10 +39,12 @@ desc 'lister toutes les pieces disponibles dans le depot dans l\'ordre croissant
 command :lister do |lister|
   
   lister.desc 'Prend format pour l\'affichage'
-  lister.default_value :format, :arg_name => 'le_format'
+  lister.flag :format, :arg_name => 'le_format'
+  
   lister.action do |global_options,options,args|
    le_format = options[:format]
-  listing = GP::BaseDeDonnees
+  
+    listing = GP::BaseDeDonnees
     .les_pieces
     .map {|p| p.to_s(le_format) << "\n" }
     .join
@@ -103,7 +105,6 @@ command :deposer do |deposer|
     
      GP::BaseDeDonnees
       .deposer(noSerie.to_sym, type, description)
-  end
   end
 end
 

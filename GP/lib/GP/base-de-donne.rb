@@ -38,7 +38,7 @@ class BaseDeDonnees
 
   @les_pieces = IO
    .readlines( depot )
-   .map { |ligne| GP::PiecesTexte.creer_pieces(ligne)}
+   .map { |ligne| GP::PiecesTexte.creer_piece(ligne)}
 
   end
 
