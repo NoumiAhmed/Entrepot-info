@@ -85,6 +85,8 @@ command :deposer do |deposer|
 end
 
 
+
+
 # desc "Cree une nouvelle base de donnees pour gerer des cours (dans './#{DEPOT_DEFAUT}' si --depot n'est pas specifie)"
 # skips_pre
 # skips_post
@@ -97,6 +99,55 @@ end
 #       .init( global[:depot], options[:detruire] )
 #   end
 # end
+#
+
+##########################################################
+#Patrons et methodes auxiliaires pour traitement de stdin
+##########################################################
+
+def piece_lu( ligne )
+  m = GP::Motifs::PIECE.match ligne.strip
+
+  erreur "Format incorrect: '#{ligne}' =~#{GA::Motifs::PIECE.inspect}" unless m
+  erreur "Nombre incorrect d'arguments: '#{ligne}'" unless m.post_match.empty?
+
+  noSerie, type, description = m.captures
+
+  [noSerie, type, supprimer_guillemets(description)]
+end
+
+def les_pieces_a_ajouter( args )
+ return [args] unless args.empty?
+
+ STDIN.readlines
+ .reject { |ligne| ligne.strip.empty? }
+ .map { |ligne| piece_lu( ligne.chomp ) }
+end
+
+def noSerie_lu( ligne )
+ m = GP::Motifs::NOSERIE.match( ligne.strip )
+
+ erreur "Format de donnees incorrect: '#{ligne}' =~ '#{GP::Motifs::NOSERIE.inspect}'" unless m
+ erreur "Format incorrect d'arguments: '#{ligne}'" unless m.post_match.empty?
+
+ supprimer_guillemets m[0]
+end
+
+def les_noSerie_a_supprimer( args )
+ return [args.shift] unless args.empty?
+
+ STDIN.readlines
+  .reject { |ligne| ligne.strip.empty? }
+  .flat_map { |ligne| ligne.split.map { |noSerie| noSerie_lu( noSerie.chomp ) } }
+end
+
+def supprimer_guillemets( a )
+  /['"]/ =~ a[0] ? a[1..-2] : a
+end
+
+########################################################
+#Pre/post hook des commandes et lancement du programme
+########################################################
 
 pre do |global,command,options,args|
   GP::BaseDeDonnees.charger( global[:depot] )
@@ -104,9 +155,7 @@ pre do |global,command,options,args|
 end
 
 post do |global,command,options,args|
-  # Post logic here
-  # Use skips_post before a command to skip this
-  # block on that command only
+  GP::BaseDeDonnees.sauver
 end
 
 on_error do |exception|
