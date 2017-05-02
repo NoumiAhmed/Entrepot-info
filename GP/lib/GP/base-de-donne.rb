@@ -19,6 +19,7 @@ class BaseDeDonnees
   def self.init( depot)
     if !File.exist? depot
      FileUtils.touch depot
+     puts "****Creation de la base de donnees***"
      end 
   end
 
