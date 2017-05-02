@@ -22,7 +22,7 @@ module GP
 
 # Methode pour sauvegarder un objet piece dans le depot de donnees.
 #
-  def self.sauver_cours( fich, piece )
+  def self.sauver_piece( fich, piece )
 
    fich.puts [piece.noSerie, piece.type, piece.description].join(PiecesTexte::SEP)
   end

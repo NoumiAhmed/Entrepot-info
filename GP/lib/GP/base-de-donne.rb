@@ -55,7 +55,7 @@ class BaseDeDonnees
 
    File.open( @depot, "w" ) do |fich|
     @les_pieces.each do |p|
-      GP::PiecesTexte.sauver_pieces(fich, p)
+      GP::PiecesTexte.sauver_piece(fich, p)
     end
    end
   end
@@ -100,14 +100,14 @@ class BaseDeDonnees
 #
 #  @return [Piece]
 #
-  # def self.piece(noSerie)  
-  #   piece = @les_pieces.select {  |p| /^#{noSerie}$/ =~ p.noSerie }
+  def self.piece(noSerie)  
+    piece = @les_pieces.select {  |p| /^#{noSerie}$/ =~ p.noSerie }
 
-  #   fail "plusieurs pieces avec le meme numero de serie #{noSerie.inspect}" if piece.size > 1
+    fail "plusieurs pieces avec le meme numero de serie #{noSerie.inspect}" if piece.size > 1
 
-  #   piece.first
+    piece.first
 
-  # end
+  end
 
  end
 end 

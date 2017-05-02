@@ -41,15 +41,16 @@ command :lister do |lister|
   lister.desc 'Prend format pour l\'affichage'
   lister.flag :format, :arg_name => 'le_format'
   
-  lister.action do |global_options,options,args|
-   le_format = options[:format]
+  lister.action do |_global_options,*options,args|
+   #le_format = options[:format]
   
     listing = GP::BaseDeDonnees
     .les_pieces
-    .map {|p| p.to_s(le_format) << "\n" }
+    .map {|p| p.to_s() << "\n" }
     .join
 
   puts listing unless listing.empty?
+
   end
 end
 
@@ -98,12 +99,14 @@ end
 desc 'Deposer une nouvelle piece dans le depot des pieces'
 arg_name '[piece]...'
 command :deposer do |deposer|
-  deposer.action do |global_options,options,args|
+  deposer.action do |_global_options,_options,args|
   erreur_nb_arguments args unless args.size == 0 || args.size >= 3
+
   les_pieces_a_ajouter(args).each do |noSerie, type, description|
   erreur "NoSerie incorrect: #{noSerie}" unless GP::Motifs::NOSERIE =~ noSerie
-    piece_avec_noSerie = GP::BaseDeDonnees.piece(noSerie)
-    erreur "une piece avec le meme numero de serie existe deja" if piece_avec_noSerie
+
+  piece_avec_noSerie = GP::BaseDeDonnees.piece(noSerie)
+  erreur "une piece avec le meme numero de serie existe deja" if piece_avec_noSerie
     
      GP::BaseDeDonnees
       .deposer(noSerie.to_sym, type, description)

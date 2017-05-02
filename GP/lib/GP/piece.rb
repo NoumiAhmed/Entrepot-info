@@ -3,7 +3,7 @@ module GP
 	class Piece
 	
 		attr_reader :type, :description, :noSerie
-		def initialize(type, description, noSerie)
+		def initialize(noSerie, type, description)
 			DBC.require( noSerie.kind_of?(Symbol) )
 			@type = type
 			@description = description
@@ -11,7 +11,7 @@ module GP
 		end
 
 		def to_s()
-			return format("%s \"%-7s\" Type : %s", 
+			return format("%s Info: \"%s\"   Type : %s", 
 							noSerie,
 							description,
 							type)
