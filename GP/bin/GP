@@ -52,13 +52,31 @@ command :lister do |lister|
 end
 
 
-desc 'Describe trouver here'
-arg_name 'Describe arguments to trouver here'
-command :trouver do |c|
-  c.action do |global_options,options,args|
-    puts "trouver command ran"
+desc 'trouver les pieces qui matchent un motif'
+arg_name 'motif'
+command :trouver do |trouver|
+  trouver.desc 'Format a utiliser pour l\'affichage des items trouves'
+  trouver.flag :format
+  
+  trouver.action do |global_options,options,args|
+   format = options[:format]
+
+   motif = args.shift
+   erreur_nb_arguments "trouver" unless motif
+
+   selection = ->(c) { /#{motif}/i =~ c.noSerie}
+  
+  liste_pieces = GP::BaseDeDonnees
+    .les_pieces.map { |piece| piece.to_s(format) + "\n" }
+    .join
+
+   puts liste_pieces unless liste_pieces.empty?
+
+   erreur "Arguments en trop" unless args.empty?
+
   end
 end
+
 
 desc 'Describe retirer here'
 arg_name 'Describe arguments to retirer here'
@@ -93,13 +111,31 @@ end
 # command :init do |init|
 #   init.desc 'Indique de detruire le fichier si il existe deja'
 #   init.switch :detruire
-
 #   init.action do |global,options,args|
 #     GP::BaseDeDonnees
 #       .init( global[:depot], options[:detruire] )
 #   end
 # end
 #
+#########################################################
+#Methodes pour traitement des erreurs
+#########################################################
+
+def erreur( msg )
+  exit_now! "*** Erreur: #{msg}"
+end
+
+def erreur_nb_arguments( *args )
+  erreur "Nombre incorrect d'arguments: <<#{args.join(' ')}>>"
+end
+
+on_error do |exception|
+  STDERR.puts "Exception signalee dans bin/gp!!"
+  STDERR.puts "exception = #{exception.inspect}"
+  STDERR.puts exception.backtrace
+
+ false
+end
 
 ##########################################################
 #Patrons et methodes auxiliaires pour traitement de stdin
