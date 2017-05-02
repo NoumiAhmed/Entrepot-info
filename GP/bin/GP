@@ -85,11 +85,13 @@ arg_name '[noSerie]...'
 command :retirer do |retirer|
   retirer.action do |global_options,options,args|
     erreur "Arguments en trop" if args.size > 1
+
     les_noSerie_a_supprimer(args).each do |sigle|
     les_pieces = GP::BaseDeDonnees.piece(noSerie)
     erreur "Aucune piece avec le numero de serie '#{noSerie}'" unless piece
     GP::BaseDeDonnees.retirer piece
    end    
+
   end
 end
 
@@ -105,23 +107,24 @@ command :deposer do |deposer|
     
      GP::BaseDeDonnees
       .deposer(noSerie.to_sym, type, description)
+    end
   end
 end
 
 
 
 
-# desc "Cree une nouvelle base de donnees pour gerer des cours (dans './#{DEPOT_DEFAUT}' si --depot n'est pas specifie)"
-# skips_pre
-# skips_post
-# command :init do |init|
-#   init.desc 'Indique de detruire le fichier si il existe deja'
-#   init.switch :detruire
-#   init.action do |global,options,args|
-#     GP::BaseDeDonnees
-#       .init( global[:depot], options[:detruire] )
-#   end
-# end
+desc "Cree une nouvelle base de donnees pour gerer des cours (dans './#{DEPOT_DEFAUT}' si --depot n'est pas specifie)"
+skips_pre
+skips_post
+command :init do |init|
+  init.desc 'Indique de detruire le fichier si il existe deja'
+  init.switch :detruire
+  init.action do |global,options,args|
+    GP::BaseDeDonnees
+      .init( global[:depot], options[:detruire] )
+  end
+end
 
 
 
@@ -202,10 +205,6 @@ post do |global,command,options,args|
   GP::BaseDeDonnees.sauver
 end
 
-on_error do |exception|
-  # Error logic here
-  # return false to skip default error handling
-  true
-end
+
 
 exit run(ARGV)
