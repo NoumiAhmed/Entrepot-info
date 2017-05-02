@@ -1,11 +1,11 @@
-module GestionDepot 
+module GP
 
  # Module qui regroupe des constantes definissant les divers motifs
  # pour identifier les champs d'une piece
  #
  #
 
-    module Motifs
+ module Motifs
  # Moitfs mots representant noSerie, type, description
  #
  #
@@ -16,7 +16,7 @@ module GestionDepot
   
   #Motif pour une piece complete
   #
-  PIECE = %r{^\s*(#{NOSERIE})\s+#{TUPE}\s+#{DESCIPTION}\s*$}
+  PIECE = %r{^\s*(#{NOSERIE})\s+#{TYPE}\s+#{DESCRIPTION}\s*$}
 
  end
 end

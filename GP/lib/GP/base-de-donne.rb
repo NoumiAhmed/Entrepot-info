@@ -100,10 +100,10 @@ class BaseDeDonnees
 #
 #  @return [Piece]
 #
-  # def self.( noSerie ) 
+  # def self.piece(noSerie)  
   #   piece = @les_pieces.select {  |p| /^#{noSerie}$/ =~ p.noSerie }
 
-  #   fail "plusieurs pieces avec le meme numero de serie #{noSerie.inspect}" if pieces.size > 1
+  #   fail "plusieurs pieces avec le meme numero de serie #{noSerie.inspect}" if piece.size > 1
 
   #   piece.first
 

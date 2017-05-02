@@ -101,9 +101,9 @@ command :deposer do |deposer|
   deposer.action do |global_options,options,args|
   erreur_nb_arguments args unless args.size == 0 || args.size >= 3
   les_pieces_a_ajouter(args).each do |noSerie, type, description|
-  erreur "NoSerie incorrect: #{sigle}" unless GP::Motifs::NOSERIE =~ noSerie
+  erreur "NoSerie incorrect: #{noSerie}" unless GP::Motifs::NOSERIE =~ noSerie
     piece_avec_noSerie = GP::BaseDeDonnees.piece(noSerie)
-    erreur "une piece avec le mem numero de serie existe deja" if piece_avec_noSerie
+    erreur "une piece avec le meme numero de serie existe deja" if piece_avec_noSerie
     
      GP::BaseDeDonnees
       .deposer(noSerie.to_sym, type, description)
