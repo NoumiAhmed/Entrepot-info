@@ -78,12 +78,11 @@ command :trouver do |trouver|
    erreur "NoSerie doit etre une lettre suivie de 5 chiffres!!!!!" unless GP::Motifs::NOSERIE =~ motif
   
   piece   = GP::BaseDeDonnees
-    .les_pieces.select{ |p|  p.noSerie =~  /#^{motif}$/}
-    .map { |piece| piece.to_s() + "\n" }
+    .les_pieces.select{ |p|  p.noSerie =~  /#{motif}$/}
     .join
 
    puts piece unless piece.empty?
-
+   erreur "Piece introuvable" if piece.empty?
    erreur "Arguments en trop" unless args.empty?
 
   end
