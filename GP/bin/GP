@@ -86,11 +86,10 @@ arg_name '[noSerie]...'
 command :retirer do |retirer|
   retirer.action do |global_options,options,args|
     erreur "Arguments en trop" if args.size > 1
-
-    les_noSerie_a_supprimer(args).each do |sigle|
+    les_noSerie_a_supprimer(args).each do |noSerie|
     les_pieces = GP::BaseDeDonnees.piece(noSerie)
-    erreur "Aucune piece avec le numero de serie '#{noSerie}'" unless piece
-    GP::BaseDeDonnees.retirer piece
+    erreur "Aucune piece avec le numero de serie '#{noSerie}'" unless les_pieces
+    GP::BaseDeDonnees.retirer les_pieces
    end    
 
   end
