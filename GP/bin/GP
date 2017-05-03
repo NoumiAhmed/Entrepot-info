@@ -68,8 +68,9 @@ command :trouver do |trouver|
    erreur_nb_arguments "trouver" unless motif
 
    selection = ->(c) { /#{motif}/i =~ c.noSerie}
+   erreur "NoSerie doit etre une lettre suivie de 5 chiffres!!!!!" unless GP::Motifs::NOSERIE =~ motif
   
-  liste_pieces = GP::BaseDeDonnees
+  liste_piec   = GP::BaseDeDonnees
     .les_pieces.map { |piece| piece.to_s(format) + "\n" }
     .join
 
@@ -95,7 +96,7 @@ command :retirer do |retirer|
   end
 end
 
-desc 'Deposer une nouvelle piece dans le depot des pieces'
+desc 'Deposer une nouvelle piece dans le depot des pieces le numero de seri doit etre une lettre suivi de 5 chiffre et type doit etre dans CPU, RAM ou DISK'
 arg_name '[piece]...'
 command :deposer do |deposer|
   deposer.action do |_global_options,_options,args|
@@ -103,6 +104,7 @@ command :deposer do |deposer|
 
   les_pieces_a_ajouter(args).each do |noSerie, type, description|
   erreur "NoSerie incorrect: #{noSerie}" unless GP::Motifs::NOSERIE =~ noSerie
+  erreur "Type incorrect #{type}" unless GP::Motifs::TYPE =~ type
 
   piece_avec_noSerie = GP::BaseDeDonnees.piece(noSerie)
   erreur "une piece avec le meme numero de serie existe deja" if piece_avec_noSerie
