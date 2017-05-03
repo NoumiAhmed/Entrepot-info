@@ -79,7 +79,7 @@ command :trouver do |trouver|
    erreur "NoSerie doit etre une lettre suivie de 5 chiffres!!!!!" unless GP::Motifs::NOSERIE =~ motif
   
   liste_piec   = GP::BaseDeDonnees
-    .les_pieces.map { |piece| piece.to_s(format) + "\n" }
+    .les_pieces.map { |piece| piece.to_s() + "\n" }
     .join
 
    puts liste_pieces unless liste_pieces.empty?

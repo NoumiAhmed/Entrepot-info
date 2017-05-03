@@ -85,8 +85,9 @@ class BaseDeDonnees
 #  @ensure la piece n'est plus presente dans le depot
 #
   def self.retirer( piece )
+    
    retire = @les_pieces.delete piece
- 
+  
    DBC.assert retire, "Dans retirer: la piece #{piece} n'existait pas"
   end
 
@@ -107,7 +108,7 @@ class BaseDeDonnees
 #
   def self.piece(noSerie)  
     piece = @les_pieces.select {  |p| /^#{noSerie}$/ =~ p.noSerie }
-    
+
     fail "plusieurs pieces avec le meme numero de serie #{noSerie.inspect}" if piece.size > 1
 
     piece.first
