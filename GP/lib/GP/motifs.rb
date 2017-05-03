@@ -10,8 +10,8 @@ module GP
  #
  #
   
-  NOSERIE = %r{\b[0-9]{5}\b}
-  TYPE = %r{CPU | RAM | DISK}
+  NOSERIE = %r{\b^[a-zA-Z][0-9]{5}\b}
+  TYPE = %r{CPU|RAM|DISK}
   DESCRIPTION =  %r{("(?:[^"]+)"|'(?:[^']+)'|(?:[^\s]+))}
   
   #Motif pour une piece complete

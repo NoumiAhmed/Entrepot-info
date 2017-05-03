@@ -1,10 +1,9 @@
 module GP
-
 	class Piece
 	
 		attr_reader :type, :description, :noSerie
 		def initialize(noSerie, type, description)
-			DBC.require( noSerie.kind_of?(Symbol) )
+			
 			@type = type
 			@description = description
 			@noSerie = noSerie
