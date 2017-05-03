@@ -66,11 +66,10 @@ end
 desc 'trouver les pieces qui matchent un motif du numero de serie qui commence par une lettre suivi de 5 chiffres'
 arg_name 'motif'
 command :trouver do |trouver|
-  trouver.desc 'Format a utiliser pour l\'affichage des items trouves'
-  trouver.flag :format
   
-  trouver.action do |global_options,options,args|
-   format = options[:format]
+  
+  trouver.action do |_global_options,_options,args|
+   
 
    motif = args.shift
    erreur_nb_arguments "trouver" unless motif
@@ -78,11 +77,12 @@ command :trouver do |trouver|
    selection = ->(c) { /#{motif}/i =~ c.noSerie}
    erreur "NoSerie doit etre une lettre suivie de 5 chiffres!!!!!" unless GP::Motifs::NOSERIE =~ motif
   
-  liste_piec   = GP::BaseDeDonnees
-    .les_pieces.map { |piece| piece.to_s() + "\n" }
+  piece   = GP::BaseDeDonnees
+    .les_pieces.select{ |p|  p.noSerie =~  /#^{motif}$/}
+    .map { |piece| piece.to_s() + "\n" }
     .join
 
-   puts liste_pieces unless liste_pieces.empty?
+   puts piece unless piece.empty?
 
    erreur "Arguments en trop" unless args.empty?
 
