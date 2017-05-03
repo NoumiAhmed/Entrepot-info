@@ -16,12 +16,17 @@ class BaseDeDonnees
  # @ensure (le fichier n'existe pas || detruire) => le fichier existe et est vide
  #
 
-  def self.init( depot)
-    if !File.exist? depot
-     FileUtils.touch depot
-     puts "****Creation de la base de donnees***"
-     end 
-  end
+ def self.init( depot, detruire )
+      if File.exist? depot
+        if detruire
+          FileUtils.rm_f depot # On detruit le depot existant si --detruire est specifie.
+        else
+          fail "Le fichier '#{depot}' existe.
+              Si vous voulez le detruire, utilisez 'init --detruire'."
+        end
+      end
+      FileUtils.touch depot
+    end
 
 #charger en memoire le contenu d'un depot.
 #
@@ -102,7 +107,7 @@ class BaseDeDonnees
 #
   def self.piece(noSerie)  
     piece = @les_pieces.select {  |p| /^#{noSerie}$/ =~ p.noSerie }
-
+    
     fail "plusieurs pieces avec le meme numero de serie #{noSerie.inspect}" if piece.size > 1
 
     piece.first

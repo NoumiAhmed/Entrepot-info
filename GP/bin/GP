@@ -28,19 +28,27 @@ default_value DEPOT_DEFAUT
 flag :depot
 arg_name 'nom_de_fichier'
 
-GP::BaseDeDonnees.init(DEPOT_DEFAUT)
+
 
 ##############################################################
 # Specifications des diverses commandes
 # (presentees en ordre alphabatique)
 ##############################################################
+desc "Cree une nouvelle base de donnees pour gerer les pieces (dans './#{DEPOT_DEFAUT}' si --depot n'est pas specifie)"
+skips_pre
+skips_post
+command :init do |init|
+  init.desc 'Indique de detruire le fichier si il existe deja'
+  init.switch :detruire
+
+  init.action do |global_options,options,args|
+    GP::BaseDeDonnees
+      .init( global_options[:depot], options[:detruire] )
+  end
+end
 
 desc 'lister toutes les pieces disponibles dans le depot dans l\'ordre croissant des numero de serie'
 command :lister do |lister|
-  
-  lister.desc 'Prend format pour l\'affichage'
-  lister.flag :format, :arg_name => 'le_format'
-  
   lister.action do |_global_options,*options,args|
    #le_format = options[:format]
   
@@ -55,7 +63,7 @@ command :lister do |lister|
 end
 
 
-desc 'trouver les pieces qui matchent un motif'
+desc 'trouver les pieces qui matchent un motif du numero de serie qui commence par une lettre suivi de 5 chiffres'
 arg_name 'motif'
 command :trouver do |trouver|
   trouver.desc 'Format a utiliser pour l\'affichage des items trouves'
@@ -85,10 +93,11 @@ end
 desc 'retire une piece du depot des pieces'
 arg_name '[noSerie]...'
 command :retirer do |retirer|
-  retirer.action do |global_options,options,args|
+  retirer.action do |_global_options,options,args|
     erreur "Arguments en trop" if args.size > 1
     les_noSerie_a_supprimer(args).each do |noSerie|
     les_pieces = GP::BaseDeDonnees.piece(noSerie)
+    
     erreur "Aucune piece avec le numero de serie '#{noSerie}'" unless les_pieces
     GP::BaseDeDonnees.retirer les_pieces
    end    
@@ -118,17 +127,6 @@ end
 
 
 
-desc "Cree une nouvelle base de donnees pour gerer des cours (dans './#{DEPOT_DEFAUT}' si --depot n'est pas specifie)"
-skips_pre
-skips_post
-command :init do |init|
-  init.desc 'Indique de detruire le fichier si il existe deja'
-  init.switch :detruire
-  init.action do |global,options,args|
-    GP::BaseDeDonnees
-      .init( global[:depot], options[:detruire] )
-  end
-end
 
 
 

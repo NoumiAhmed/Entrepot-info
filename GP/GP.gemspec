@@ -3,11 +3,11 @@ require File.join([File.dirname(__FILE__),'lib','GP','version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'GP'
   s.version = GP::VERSION
-  s.author = 'Your Name Here'
-  s.email = 'your@email.address.com'
+  s.author = 'Omer Tombul, Ahmed Noumi'
+  s.email = 'tombul.omer@courrier.uqam.ca'
   s.homepage = 'http://your.website.com'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A description of your project'
+  s.summary = 'Un gestionnaire pour un entrepot de pieces informatique '
   s.files = `git ls-files`.split("
 ")
   s.require_paths << 'lib'
